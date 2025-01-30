@@ -52,6 +52,21 @@ export async function POST(req: NextRequest, { params }: { params: { eventId: nu
       where: { id: userId },
       data: { balance: user.balance - amount },
     });
+    // const betType = prediction == "YES" ? "yesBetting" : 'noBetting';
+    // let betType:Record<string,number>;
+    // if(prediction=='YES'){
+    //     betType={'yesBetting':event.yesBetting+amount}
+    // }else if(prediction=='NO'){
+    //     betType={'noBetting':event.noBetting+amount}
+    // }
+    await prismaClient.event.update({
+        where: { id: Number(eventId) },
+        data:{
+            totalBetting:event.totalBetting+amount,
+            yesBetting: prediction=='YES'?event.yesBetting+amount:event.yesBetting,
+            noBetting: prediction=='NO'?event.noBetting+amount:event.noBetting
+        }
+    })
     return NextResponse.json({ msg: "Betting created successfully" }, { status: 201 });
   } catch (e) {
     console.error(e);
