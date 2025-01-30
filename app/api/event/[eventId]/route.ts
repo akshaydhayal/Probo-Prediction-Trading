@@ -10,6 +10,7 @@ const bettingSchema = z.object({
   prediction: z.enum(["YES", "NO", "PENDING"]),
 });
 
+
 //create a betting endpoint
 export async function POST(req: NextRequest, { params }: { params: { eventId: number } }) {
   try {
@@ -38,6 +39,10 @@ export async function POST(req: NextRequest, { params }: { params: { eventId: nu
     if (!event) {
       return NextResponse.json({ msg: "Event not found" }, { status: 404 });
     }
+    if(event.result!='PENDING'){
+        return NextResponse.json({ msg: "Event is already closed" }, { status: 404});
+    }
+
     const user = await prismaClient.user.findUnique({ where: { id: userId } });
     if (!user) {
       return NextResponse.json({ msg: "User not found" }, { status: 404 });
@@ -45,28 +50,32 @@ export async function POST(req: NextRequest, { params }: { params: { eventId: nu
     if (user.balance < amount) {
       return NextResponse.json({ msg: "Insufficient balance" }, { status: 400 });
     }
-    await prismaClient.betting.create({
-      data: { amount, prediction, eventId: Number(eventId), userId },
-    });
-    await prismaClient.user.update({
-      where: { id: userId },
-      data: { balance: user.balance - amount },
-    });
+    
+    await prismaClient.$transaction([
+        prismaClient.betting.create({
+          data: { amount, prediction, eventId: Number(eventId), userId },
+        }),
+        prismaClient.user.update({
+          where: { id: userId },
+          data: { balance:{decrement:amount}},
+        }),
+        prismaClient.event.update({
+          where: { id: Number(eventId) },
+          data: {
+            totalBetting: event.totalBetting + amount,
+            yesBetting: prediction == "YES" ? event.yesBetting + amount : event.yesBetting,
+            noBetting: prediction == "NO" ? event.noBetting + amount : event.noBetting,
+          },
+        })
+    ]);
 
-    await prismaClient.event.update({
-      where: { id: Number(eventId) },
-      data: {
-        totalBetting: event.totalBetting + amount,
-        yesBetting: prediction == "YES" ? event.yesBetting + amount : event.yesBetting,
-        noBetting: prediction == "NO" ? event.noBetting + amount : event.noBetting,
-      },
-    });
     return NextResponse.json({ msg: "Betting created successfully" }, { status: 201 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ msg: "Internal Server error", error: e }, { status: 501 });
   }
 }
+
 
 //get a speciifc event endpoint
 export async function GET(req: NextRequest, { params }: { params: { eventId: number } }) {
@@ -89,7 +98,9 @@ export async function GET(req: NextRequest, { params }: { params: { eventId: num
   }
 }
 
-//decalre event result endpoint
+
+
+//declare event result endpoint
 export async function PUT(req: NextRequest, { params }: { params: { eventId: string } }) {
   try {
     const body = await req.json();
@@ -116,13 +127,13 @@ export async function PUT(req: NextRequest, { params }: { params: { eventId: str
     const allWinBettings = event.bettings.filter((b) => b.prediction == result);
     const winOdds: number = event.totalBetting / (result == "YES" ? event.yesBetting : event.noBetting);
 
+    //transaction- evern result update and even money distribution
     const txs = allWinBettings.map((bet) => {
       return prismaClient.user.update({
         where: { id: bet.userId },
         data: { balance: { increment: winOdds * bet.amount } },
       });
     });
-
     await prismaClient.$transaction([
       prismaClient.event.update({
         where: { id: Number(eventId) },
@@ -130,7 +141,7 @@ export async function PUT(req: NextRequest, { params }: { params: { eventId: str
       }),
       ...txs,
     ]);
-    
+
     return NextResponse.json({ msg: "Event result decalred!!" }, { status: 200 });
   } catch (e) {
     console.error(e);
