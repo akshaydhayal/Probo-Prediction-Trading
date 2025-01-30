@@ -10,6 +10,7 @@ const bettingSchema=z.object({
     prediction:z.enum(['YES','NO','PENDING'])
 })
 
+//create a betting endpoint
 export async function POST(req:NextRequest,{params}:{params:{eventId:number}}){
     try{
         const body=await req.json();
@@ -41,8 +42,15 @@ export async function POST(req:NextRequest,{params}:{params:{eventId:number}}){
         if(!user){
             return NextResponse.json({msg:"User not found"},{status:404});
         }
+        if(user.balance<amount){
+            return NextResponse.json({msg:"Insufficient balance"},{status:400});
+        }
         await prismaClient.betting.create({
             data:{amount,prediction,eventId:Number(eventId),userId}
+        })
+        await prismaClient.user.update({
+            where:{id:userId},
+            data:{balance:user.balance-amount}
         })
         return NextResponse.json({msg:"Betting created successfully"},{status:201});
     }catch(e){
@@ -51,10 +59,9 @@ export async function POST(req:NextRequest,{params}:{params:{eventId:number}}){
     }
 }
 
+//get a speciifc event endpoint
 export async function GET(req: NextRequest,{params}:{params:{eventId:number}}) {
   try {
-    // const url = new URL(req.url);
-    // const eventId = url.searchParams.get("eventId");
     const {eventId}=params;
     if (!eventId) {
       return NextResponse.json({ msg: "Event ID is required" }, { status: 400 });

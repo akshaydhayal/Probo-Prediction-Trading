@@ -10,6 +10,7 @@ const eventSchema=z.object({
     endTime:z.string().date(),
 })
 
+//event event endpoint
 export async function POST(req:NextRequest){
     try{
         const body=await req.json();
@@ -29,6 +30,7 @@ export async function POST(req:NextRequest){
     }
 }
 
+//get all events endpoint
 export async function GET(req: NextRequest) {
   try {
     const events = await prismaClient.event.findMany({});

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
-import {z} from "zod";
 
 const prismaClient=new PrismaClient();
 export async function GET(req:NextRequest){
@@ -34,7 +33,7 @@ export async function PUT(req:NextRequest){
         const body=await req.json();
         const url=new URL(req.url);
         const amount=Number(url.searchParams.get("deposit"));
-        // const parseedResponse=z.object({balance:z.number()}).safeParse(body);
+    
         const token = req.headers.get("token");
         if (!token) {
           return NextResponse.json({ error: "Token is required" }, { status: 401 });
