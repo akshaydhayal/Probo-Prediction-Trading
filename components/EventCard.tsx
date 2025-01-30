@@ -3,7 +3,7 @@ import ChartIcon from './icons/ChartIcon'
 
 const EventCard = () => {
   return (
-    <div className='w-1/3 bg-[#121212] px-8 py-4 rounded-lg flex flex-col gap-3 cursor-pointer'>
+    <div className='w-2/5 shadow-sm shadow-slate-700 bg-[#121212] px-8 py-4 rounded-lg flex flex-col gap-3 cursor-pointer'>
         <div className='flex items-center gap-1'>
             <ChartIcon/>
             <p className='text-slate-300 text-sm'>1107 traders</p>
