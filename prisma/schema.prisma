@@ -28,7 +28,6 @@ model Event{
   description String
   startTime DateTime
   endTime DateTime
-  // balances 
   totalBetting Int @default(0)
   yesBetting Int @default(0)
   noBetting Int @default(0)

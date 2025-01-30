@@ -52,21 +52,15 @@ export async function POST(req: NextRequest, { params }: { params: { eventId: nu
       where: { id: userId },
       data: { balance: user.balance - amount },
     });
-    // const betType = prediction == "YES" ? "yesBetting" : 'noBetting';
-    // let betType:Record<string,number>;
-    // if(prediction=='YES'){
-    //     betType={'yesBetting':event.yesBetting+amount}
-    // }else if(prediction=='NO'){
-    //     betType={'noBetting':event.noBetting+amount}
-    // }
+
     await prismaClient.event.update({
-        where: { id: Number(eventId) },
-        data:{
-            totalBetting:event.totalBetting+amount,
-            yesBetting: prediction=='YES'?event.yesBetting+amount:event.yesBetting,
-            noBetting: prediction=='NO'?event.noBetting+amount:event.noBetting
-        }
-    })
+      where: { id: Number(eventId) },
+      data: {
+        totalBetting: event.totalBetting + amount,
+        yesBetting: prediction == "YES" ? event.yesBetting + amount : event.yesBetting,
+        noBetting: prediction == "NO" ? event.noBetting + amount : event.noBetting,
+      },
+    });
     return NextResponse.json({ msg: "Betting created successfully" }, { status: 201 });
   } catch (e) {
     console.error(e);
@@ -81,9 +75,9 @@ export async function GET(req: NextRequest, { params }: { params: { eventId: num
     if (!eventId) {
       return NextResponse.json({ msg: "Event ID is required" }, { status: 400 });
     }
-    const event = await prismaClient.event.findUnique({ 
-        where: { id: Number(eventId) },
-        include:{bettings:true}
+    const event = await prismaClient.event.findUnique({
+      where: { id: Number(eventId) },
+      include: { bettings: true },
     });
     if (!event) {
       return NextResponse.json({ msg: "Event not found" }, { status: 404 });
@@ -95,7 +89,6 @@ export async function GET(req: NextRequest, { params }: { params: { eventId: num
   }
 }
 
-
 //decalre event result endpoint
 export async function PUT(req: NextRequest, { params }: { params: { eventId: string } }) {
   try {
@@ -106,18 +99,39 @@ export async function PUT(req: NextRequest, { params }: { params: { eventId: str
       return NextResponse.json({ msg: parsedResponse.error }, { status: 400 });
     }
     const { result } = parsedResponse.data;
-    const event = await prismaClient.event.findUnique({ where: { id: Number(eventId) } });
+    if (result == "PENDING") {
+      return NextResponse.json({ msg: "Event result is pending" }, { status: 400 });
+    }
+    const event = await prismaClient.event.findUnique({
+      where: { id: Number(eventId) },
+      include: { bettings: true },
+    });
     if (!event) {
-        return NextResponse.json({ msg: "Event not found" }, { status: 404 });
+      return NextResponse.json({ msg: "Event not found" }, { status: 404 });
     }
     if (event.result !== "PENDING") {
-        return NextResponse.json({ msg: "Event result already set" }, { status: 400});
+      return NextResponse.json({ msg: "Event result already set" }, { status: 400 });
     }
-    await prismaClient.event.update({
-        where:{id:Number(eventId)},
-        data:{result:result}
-    })
-    return NextResponse.json({ msg: "Event result decalred!!" }, { status: 200});
+
+    const allWinBettings = event.bettings.filter((b) => b.prediction == result);
+    const winOdds: number = event.totalBetting / (result == "YES" ? event.yesBetting : event.noBetting);
+
+    const txs = allWinBettings.map((bet) => {
+      return prismaClient.user.update({
+        where: { id: bet.userId },
+        data: { balance: { increment: winOdds * bet.amount } },
+      });
+    });
+
+    await prismaClient.$transaction([
+      prismaClient.event.update({
+        where: { id: Number(eventId) },
+        data: { result: result },
+      }),
+      ...txs,
+    ]);
+    
+    return NextResponse.json({ msg: "Event result decalred!!" }, { status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ msg: "Internal Server error", error: e }, { status: 501 });

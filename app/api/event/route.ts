@@ -10,6 +10,8 @@ const eventSchema=z.object({
     endTime:z.string().date(),
 })
 
+
+
 //event event endpoint
 export async function POST(req:NextRequest){
     try{
@@ -29,6 +31,8 @@ export async function POST(req:NextRequest){
         return NextResponse.json({msg:"Internal Server error",error:e},{status:501});
     }
 }
+
+
 
 //get all events endpoint
 export async function GET(req: NextRequest) {
