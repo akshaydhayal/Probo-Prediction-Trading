@@ -12,7 +12,7 @@ const bettingSchema = z.object({
 
 
 //create a betting endpoint
-export async function POST(req: NextRequest, { params }: { params: { eventId: number } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ eventId: string }> }) {
   try {
     const body = await req.json();
     const parsedResponse = bettingSchema.safeParse(body);
@@ -78,9 +78,9 @@ export async function POST(req: NextRequest, { params }: { params: { eventId: nu
 
 
 //get a speciifc event endpoint
-export async function GET(req: NextRequest, { params }: { params: { eventId: number } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
   try {
-    const { eventId } = params;
+    const { eventId } = await params;
     if (!eventId) {
       return NextResponse.json({ msg: "Event ID is required" }, { status: 400 });
     }
@@ -101,7 +101,7 @@ export async function GET(req: NextRequest, { params }: { params: { eventId: num
 
 
 //declare event result endpoint
-export async function PUT(req: NextRequest, { params }: { params: { eventId: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
   try {
     const body = await req.json();
     const { eventId } = await params;

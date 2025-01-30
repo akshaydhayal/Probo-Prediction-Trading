@@ -3,14 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import {z} from "zod";
 
 const prismaClient=new PrismaClient();
+
 const eventSchema=z.object({
     title:z.string().min(10).max(300),
     description:z.string(),
     startTime:z.string().date(),
     endTime:z.string().date(),
 })
-
-
 
 //event event endpoint
 export async function POST(req:NextRequest){
@@ -35,7 +34,7 @@ export async function POST(req:NextRequest){
 
 
 //get all events endpoint
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const events = await prismaClient.event.findMany({});
     return NextResponse.json({ events }, { status: 200 });
