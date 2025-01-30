@@ -9,6 +9,7 @@ const eventSchema=z.object({
     startTime:z.string().date(),
     endTime:z.string().date(),
 })
+
 export async function POST(req:NextRequest){
     try{
         const body=await req.json();
@@ -28,20 +29,12 @@ export async function POST(req:NextRequest){
     }
 }
 
-export async function GET(req:NextRequest){
-    try{
-        const url=new URL(req.url);
-        const eventId=url.searchParams.get("eventId");
-        if(!eventId){
-            return NextResponse.json({msg:"Event ID is required"},{status:400});
-        }
-        const event=await prismaClient.event.findUnique({where:{id:Number(eventId)}});
-        if(!event){
-            return NextResponse.json({msg:"Event not found"},{status:404});
-        }
-        return NextResponse.json({event},{status:200});
-    }catch(e){
-        console.error(e);
-        return NextResponse.json({msg:"Internal Server error",error:e},{status:501});
-    }
+export async function GET(req: NextRequest) {
+  try {
+    const events = await prismaClient.event.findMany({});
+    return NextResponse.json({ events }, { status: 200 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ msg: "Internal Server error", error: e }, { status: 501 });
+  }
 }

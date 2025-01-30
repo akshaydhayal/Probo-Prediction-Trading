@@ -18,6 +18,7 @@ model User{
   name String
   email String @unique
   password String
+  balance Int @default(0)
   bettings Betting[]
 }
 
@@ -27,13 +28,20 @@ model Event{
   description String
   startTime DateTime
   endTime DateTime
+  result Prediction @default(PENDING)
   bettings Betting[]
+}
+
+enum Prediction{
+  YES
+  NO
+  PENDING
 }
 
 model Betting{
   id Int @id @default(autoincrement())
   amount Int
-  label String
+  prediction Prediction
   eventId Int
   event Event @relation(fields: [eventId],references: [id])
   userId Int
