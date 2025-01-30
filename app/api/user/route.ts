@@ -17,7 +17,10 @@ export async function GET(req:NextRequest){
         if (!decodedToken) {
           return NextResponse.json({ msg: "Wong Jwt token credentials!!" }, { status: 401 });
         }
-        const user=await prismaClient.user.findUnique({where:{id:userId}});
+        const user=await prismaClient.user.findUnique({
+            where:{id:userId},
+            include:{bettings:true}
+        });
         if(!user){
             return NextResponse.json({error:"User not found"},{status:404});
         }
