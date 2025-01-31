@@ -9,6 +9,8 @@ const eventSchema=z.object({
     description:z.string(),
     startTime:z.string().date(),
     endTime:z.string().date(),
+    imageUrl:z.string().url(),
+    sourceOfTruth:z.string().max(100)
 })
 
 //event event endpoint
@@ -20,9 +22,11 @@ export async function POST(req:NextRequest){
         if(!parsedResponse.success){
             return NextResponse.json({msg:parsedResponse.error},{status:401});
         }
-        const {title,description,startTime,endTime}=parsedResponse.data;
+        const {title,description,startTime,endTime,imageUrl,sourceOfTruth}=parsedResponse.data;
         await prismaClient.event.create({
-            data:{title,description,endTime:new Date(endTime),startTime:new Date(startTime)}
+            data:{
+                title,description,endTime:new Date(endTime),startTime:new Date(startTime),imageUrl,sourceOfTruth
+            }
         });
         return NextResponse.json({msg:"Event created successfully"},{status:201});
     }catch(e){

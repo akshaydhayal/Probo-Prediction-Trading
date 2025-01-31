@@ -34,8 +34,8 @@ model Event{
   description String
   startTime DateTime
   endTime DateTime
-  // imageUrl String
-  //source of Truth Fancode
+  imageUrl String @default("https://cdn-icons-png.flaticon.com/512/9304/9304477.png")
+  sourceOfTruth String @default("Website")
   totalBetting Int @default(0)
   yesBetting Int @default(0)
   noBetting Int @default(0)
