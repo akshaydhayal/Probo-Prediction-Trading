@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import EventTabDetails from "./EventTabDetails";
+import { eventSchema } from "@/app/[eventId]/page";
 
-const EventTabs = () => {
+const EventTabs = ({eventData}:{eventData:eventSchema}) => {
   const [tabClicked, setTabClicked] = useState("orderbook");
   function toggleTab() {
     tabClicked == "orderbook" ? setTabClicked("overview") : setTabClicked("orderbook");
@@ -20,7 +21,7 @@ const EventTabs = () => {
           {tabClicked == "overview" && <div className="h-[.11rem]  bg-slate-400"></div>}
         </div>
       </div>
-      <EventTabDetails tabClicked={tabClicked}/>
+      <EventTabDetails tabClicked={tabClicked} eventData={eventData}/>
     </div>
   );
 };
