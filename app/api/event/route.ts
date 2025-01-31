@@ -40,7 +40,9 @@ export async function POST(req:NextRequest){
 //get all events endpoint
 export async function GET() {
   try {
-    const events = await prismaClient.event.findMany({});
+    const events = await prismaClient.event.findMany({
+        include:{_count:{select:{bettings:true}}}
+    });
     return NextResponse.json({ events }, { status: 200 });
   } catch (e) {
     console.error(e);
