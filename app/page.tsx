@@ -26,7 +26,7 @@ export default async function Home() {
   const events = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
   // console.log(events.data);
   const eventsData=events.data.events;
-
+  console.log("main page rendered");
   return (
     <div className="bg-[#201f1f] w-full min-h-screen ">
       <NavList/>

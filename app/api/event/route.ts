@@ -13,7 +13,7 @@ const eventSchema=z.object({
     sourceOfTruth:z.string().max(100)
 })
 
-//event event endpoint
+//create event endpoint
 export async function POST(req:NextRequest){
     try{
         const body=await req.json();
