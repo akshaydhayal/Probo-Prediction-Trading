@@ -1,7 +1,7 @@
 import Landing from '@/components/Landing';
-import React from 'react'
+import React, { ReactNode } from 'react'
 
-const layout = ({children}) => {
+const layout = ({children}:{children:ReactNode}) => {
   return (
     <div className="flex">
       <div className="w-1/2">
