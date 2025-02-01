@@ -9,13 +9,13 @@ import EventModal from "./EventModal";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector, UseSelector } from "react-redux";
 import { updateUser, updateUserBalance } from "@/store/userSlice";
+import { RootState } from "@/store/store";
 
 const Navbar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [openModal, setModalOpen] = useState(false);
-  //@ts-ignore
-  const userInfo = useSelector((state) => state?.userSlice?.user);
+  const userInfo = useSelector((state:RootState) => state.userSlice.user);
   console.log(userInfo);
 
   async function getMoney(){

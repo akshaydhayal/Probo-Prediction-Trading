@@ -1,18 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const userSlice=createSlice({
-    name:'userSlice',
-    initialState:{user:null},
-    reducers:{
-        updateUser:(state,action)=>{
-            state.user=action.payload;
-        },
-        updateUserBalance:(state,action)=>{
-            if(!state.user) return;
-            state.user.balance+=action.payload;
-        }
-    }
+export interface userState {
+  name: string;
+  balance: number;
+  bettings: {
+    id: number;
+    amount: number;
+    prediction: "YES" | "NO" | "PENDING";
+    event: {
+      title: string;
+      imageUrl: string;
+      result: "YES" | "NO" | "PENDING";
+      totalBetting: number;
+      yesBetting: number;
+      noBetting: number;
+    };
+  }[];
+}
+const initialState: { user: userState | null } = { user: null };
+
+const userSlice = createSlice({
+  name: "userSlice",
+  initialState,
+  reducers: {
+    updateUser: (state, action: PayloadAction<userState>) => {
+      state.user = action.payload;
+    },
+    updateUserBalance: (state, action: PayloadAction<number>) => {
+      if (!state.user) return;
+      state.user.balance += action.payload;
+    },
+  },
 });
 
-export const {updateUser,updateUserBalance}=userSlice.actions;
+export const { updateUser, updateUserBalance } = userSlice.actions;
 export default userSlice.reducer;
