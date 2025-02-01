@@ -59,7 +59,9 @@ const Signup = () => {
         </div>
         <div className="flex gap-2 justify-center">
           <p className="text-slate-300">Already have an account?</p>
-          <p className="text-blue-300 font-medium cursor-pointer hover:underline">Signin</p>
+          <p className="text-blue-300 font-medium cursor-pointer hover:underline" onClick={()=>{
+            router.push("/signin");
+          }}>Signin</p>
         </div>
       </div>
     </div>

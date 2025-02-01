@@ -6,17 +6,33 @@ import Google from "./icons/Google";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { UseSelector,useDispatch } from "react-redux";
+import { updateUser } from "@/store/userSlice";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const dispatch=useDispatch();
 
   function inputEmailChange(ip: string) {
     setEmail(ip);
   }
   function inputPasswordChange(ip: string) {
     setPassword(ip);
+  }
+  async function getUserData(token:string){
+    try{
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`,{
+        headers:{token}
+      });
+      if(response.status==200){
+        dispatch(updateUser(response.data.user));
+        console.log("user state in redux updated");
+      }
+    }catch(e){
+      console.log(e);
+    }
   }
   async function handleSignin() {
     try {
@@ -26,6 +42,7 @@ const Signin = () => {
       });
       if (response.status == 200) {
         localStorage.setItem("token", response.data.jwtToken);
+        getUserData(response.data.jwtToken);
         router.push("/");
       }
     } catch (e) {
@@ -59,7 +76,9 @@ const Signin = () => {
         </div>
         <div className="flex gap-2 justify-center">
           <p className="text-slate-300">Don't have an account?</p>
-          <p className="text-blue-300 font-medium cursor-pointer hover:underline">Sign up</p>
+          <p className="text-blue-300 font-medium cursor-pointer hover:underline" onClick={()=>{
+            router.push("/signup");
+          }}>Sign up</p>
         </div>
       </div>
     </div>
