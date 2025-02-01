@@ -4,11 +4,27 @@ import MinusIcon from "./icons/MinusIcon";
 import PlusIcon from "./icons/PlusIcon";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { updateUser } from "@/store/userSlice";
 
-const PlaceOrder = ({eventId}:{eventId:number}) => {
+const PlaceOrder = ({eventId,yesOdds,noOdds}:{eventId:number,yesOdds:number,noOdds:number}) => {
   const [betOn, setBetOn] = useState("YES");
   const [price, setPrice] = useState(5);
   const [quantity, setQuantity] = useState(1);
+  const dispatch=useDispatch();
+
+  async function getUserData(token: string) {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`, {
+        headers: { token },
+      });
+      if (response.status == 200) {
+        dispatch(updateUser(response.data.user));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   async function placeBetting(){
     try{
@@ -23,8 +39,8 @@ const PlaceOrder = ({eventId}:{eventId:number}) => {
         toast.success("Bet placed successfully! 🎉", {
           position: "bottom-right",duration:2000
         });
+          getUserData(localStorage.getItem('token')??'');
       }else{
-        
         toast.error("Failed to place bet!", {position:"bottom-right",duration:3000});
       }
     }catch(e){
@@ -102,7 +118,7 @@ const PlaceOrder = ({eventId}:{eventId:number}) => {
             <p className="text-slate-400 text-sm">You Put</p>
           </div>
           <div className="flex flex-col flex-1 items-center">
-            <p className="font-semibold text-green-400">Rs 10.0</p>
+            <p className="font-semibold text-green-400">Rs {betOn=='YES'?price*quantity*yesOdds:price*quantity*noOdds}</p>
             <p className="text-slate-400 text-sm">You get</p>
           </div>
         </div>

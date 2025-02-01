@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {
     const [title,setTitle]=useState("");
@@ -9,6 +10,7 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
     const [imageUrl,setImageUrl]=useState("");
     const [startDate,setStartDate]=useState("");
     const [endDate,setEndDate]=useState("");
+    const router=useRouter();
 
     async function createEvent(){
         const response=await axios.post(
@@ -27,6 +29,7 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
         );
         console.log(response.data);
         if(response.data){
+            router.push("/");
             setModalOpen(false);
         }
     }

@@ -1,8 +1,9 @@
 import { eventSchema } from "@/app/[eventId]/page";
+import { roundOff } from "@/lib/lib";
 import React from "react";
 
 const EventTabDetails = ({ tabClicked, eventData }: { tabClicked: string; eventData: eventSchema }) => {
-  
+
   return (
     <div className="border border-slate-700 p-6 rounded-lg flex flex-col gap-6">
       {tabClicked == "overview" ? (
@@ -30,8 +31,8 @@ const EventTabDetails = ({ tabClicked, eventData }: { tabClicked: string; eventD
       ) : (
         <div className="flex flex-col gap-2 px-6">
           <div className="flex justify-between">
-            <p className="font-medium text-slate-300">Yes Rs 100</p>
-            <p className="font-medium text-slate-300">No Rs 50</p>
+            <p className="font-medium text-slate-300">Yes Rs {eventData.yesBetting}</p>
+            <p className="font-medium text-slate-300">No Rs {eventData.noBetting}</p>
           </div>
           <div className="flex">
             <div className={`h-2 w-1/3 bg-blue-700 rounded-l-md`}></div>
@@ -40,11 +41,11 @@ const EventTabDetails = ({ tabClicked, eventData }: { tabClicked: string; eventD
           <div className="flex gap-4 mt-6">
             <div className="flex flex-col gap-1 border border-slate-700 py-6 px-8 bg-[#1b1b1b] flex-1">
               <p className="font-medium text-slate-300">Yes Odds</p>
-              <p className="font-bold text-3xl text-slate-300">1.66</p>
+              <p className="font-bold text-3xl text-slate-300">{roundOff(eventData.totalBetting==0?1:eventData.totalBetting/(eventData.yesBetting==0?1:eventData.yesBetting),2)}</p>
             </div>
             <div className="flex flex-col gap-1 border border-slate-700 py-6 px-8 bg-[#1b1b1b] flex-1">
-              <p className="font-medium text-slate-300">Yes Odds</p>
-              <p className="font-bold text-3xl text-slate-300">1.66</p>
+              <p className="font-medium text-slate-300">No Odds</p>
+              <p className="font-bold text-3xl text-slate-300">{roundOff(eventData.totalBetting==0?1:eventData.totalBetting/(eventData.noBetting==0?1:eventData.noBetting),2)}</p>
             </div>
           </div>
         </div>
