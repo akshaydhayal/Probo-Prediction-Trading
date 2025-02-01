@@ -31,7 +31,7 @@ export async function POST(req:NextRequest){
             return NextResponse.json({msg:"JWT secret is not defined"},{status:401});
         }
         const jwtToken=jwt.sign({userId:user.id},process.env.JWT_SECRET);
-        return NextResponse.json({msg:"User signed in!!",jwtToken},{status:201});
+        return NextResponse.json({msg:"User signed in!!",jwtToken},{status:200});
     }catch(e){
         console.log(e);
         return NextResponse.json({msg:"Internal server error",error:e},{status:501});
