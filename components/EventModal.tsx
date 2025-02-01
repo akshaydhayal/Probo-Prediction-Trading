@@ -46,7 +46,7 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
           placeholder="Type Event description" onChange={(e)=>setDescription(e.target.value)}/>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-4">
           <div className="flex flex-col gap-1 flex-1">
             <p className="text-gray-300 font-medium">Event StartDate</p>
             <input
@@ -81,6 +81,13 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
               placeholder="Type Event title"
             />
           </div>
+          
+        <div className="flex flex-col gap-1 flex-1">
+          <p className="text-gray-300 font-medium">Event Tag</p>
+          <input className="py-2 w-full bg-black placeholder:text-slate-400 px-4 text-sm text-slate-200"
+          placeholder="Event Tag" onChange={(e)=>setDescription(e.target.value)}/>
+        </div>
+
         </div>
 
         <div className="flex gap-8">

@@ -29,12 +29,11 @@ function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar/>
-        {children}
+          <Navbar/>
+          {children}
       </body>
     </html>
   );
 }
 
-// export default React.memo(RootLayout);
 export default RootLayout;

@@ -25,8 +25,8 @@ const Signin = () => {
         password,
       });
       if (response.status == 200) {
-        router.push("/");
         localStorage.setItem("token", response.data.jwtToken);
+        router.push("/");
       }
     } catch (e) {
       console.log(e);
