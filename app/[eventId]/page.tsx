@@ -23,7 +23,7 @@ export default async function EventPage({params}:{params:{eventId:string}}){
                 <EventDetails eventData={eventData}/>
             </div>
             <div className="w-1/4">
-                <PlaceOrder/>
+                <PlaceOrder eventId={eventData.id}/>
             </div>
         </div>
     )
