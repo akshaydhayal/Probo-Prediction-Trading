@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector, UseSelector } from "react-redux";
 import { updateUser, updateUserBalance } from "@/store/userSlice";
 import { RootState } from "@/store/store";
+import Logout from "./icons/Logout";
+import LogoutIcon from "./icons/LogoutIcon";
 
 const Navbar = () => {
     const router = useRouter();
@@ -43,64 +45,83 @@ const Navbar = () => {
         >
           probo
         </p>
-        <div className="flex items-center gap-16">
-          <div className="flex items-center gap-8">
+        <div className="flex items-center gap-10 sm:gap-32 md:gap-8 lg:gap-44 ">
+          <div className="flex items-center gap-3 sm:gap-6 md:gap-3 lg:gap-8">
             <div className="flex gap-1 items-center cursor-pointer" onClick={() => router.push("/")}>
               <HomeIcon />
-              <p className="text-gray-200 hover:text-gray-50 font-medium ">Home</p>
+              <p className="hidden md:block text-gray-200 hover:text-gray-50 font-medium md:text-sm lg:text-base">Home</p>
             </div>
             {userInfo && (
               <>
                 <div className="flex gap-1 items-center cursor-pointer" onClick={() => router.push("/portfolio/1")}>
                   <PortfolioIcon />
-                  <p className="text-gray-200 hover:text-gray-50 font-medium">Portfolio</p>
+                  <p className="hidden md:block text-gray-200 hover:text-gray-50 font-medium md:text-sm lg:text-base">Portfolio</p>
                 </div>
                 <div className="flex gap-1 items-center cursor-pointer" onClick={() => setModalOpen(true)}>
                   <ChartIcon />
-                  <p className="text-gray-200 hover:text-gray-50 font-medium">Create Opinion</p>
+                  <p className="hidden md:block text-gray-200 hover:text-gray-50 md:text-sm font-medium lg:text-base">Create Opinion</p>
                 </div>
               </>
             )}
           </div>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-1">
-              <div className="flex gap-1 items-center  cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full px-3 py-[3px]">
+          <div className="flex items-center gap-4 sm:gap-8 md:gap-2 lg:gap-6">
+            <div className="flex items-center gap-1 ">
+              <div className="flex gap-0 items-center  cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full px-[6px] py-[1px] sm:px-2 lg:px-3 sm:py-[2px] lg:py-[3px]">
                 <RupeeIcon />
-                <p className="text-white font-medium">{userInfo ? userInfo.balance : 0}</p>
+                <p className="text-white font-medium text-sm lg:text-base ">{userInfo ? userInfo.balance : 0}</p>
               </div>
 
-            {userInfo && <p className="text-gray-200 text-sm hover:text-gray-50 font-medium hover:underline hover:underline-offset-4
-             cursor-pointer" onClick={getMoney}>Get Rs 50</p>}
+              {userInfo && (
+                <p
+                  className="text-gray-200 text-sm  hover:text-gray-50 font-medium hover:underline hover:underline-offset-4
+             cursor-pointer"
+                  onClick={getMoney}
+                >
+                  Get Rs 50
+                </p>
+              )}
             </div>
-            {userInfo && (
-              <div className="flex items-center gap-1">
-                <div className="flex gap-[2px] items-center cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[4px]">
-                  <Usericon />
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-1 lg:gap-2">
+              {userInfo && (
+                <div className="flex items-center gap-1">
+                  <div className="flex  items-center cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-[2px] sm:p-[3px] md:p-[4px]">
+                    <Usericon />
+                  </div>
+                  <p className="hidden md:block text-gray-200 hover:text-gray-50 font-medium text-sm">Hi {userInfo.name}</p>
                 </div>
-                <p className="text-gray-200 hover:text-gray-50 font-medium text-sm">Hi {userInfo.name}</p>
-
-              </div>
-            )}
-            {!userInfo ? (
-              <button
-                className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-4
+              )}
+              {!userInfo ? (
+                <button
+                  className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-4
             text-base font-[530] rounded-md"
-                onClick={() => router.push("/signin")}
-              >
-                Login/Signup
-              </button>
-            ) : (
-              <button
-                className="bg-blue-700 hover:bg-blue-600 text-white py-1 px-4
-            text-base font-[530] rounded-md"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  dispatch(updateUser(null));
-                }}
-              >
-                Logout
-              </button>
-            )}
+                  onClick={() => router.push("/signin")}
+                >
+                  Login/Signup
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="bg-blue-700 hidden md:block hover:bg-blue-600  text-white md:py-[2px] lg:py-1 md:px-2 lg:px-4
+                lg:text-base text-sm font-[530] rounded-md"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      dispatch(updateUser(null));
+                    }}
+                  >
+                    Logout
+                  </button>
+                  <div
+                    className="block md:hidden cursor-pointer"
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      dispatch(updateUser(null));
+                    }}
+                  >
+                    <LogoutIcon />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
