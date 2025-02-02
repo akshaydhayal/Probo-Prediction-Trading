@@ -22,13 +22,13 @@ export type eventType={
 }
 
 export default async function Home() {
-  // const events = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
+  // const events1 = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
   const events = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`,{
     method:'GET',
     cache:'no-store'
   });
   // const eventsData=events.data.events;
-  const eventsData=(await events.json()).data.events;
+  const eventsData=(await events.json()).events;
   console.log("main page rendered");
   return (
     <div className="bg-[#201f1f] w-full min-h-screen ">
