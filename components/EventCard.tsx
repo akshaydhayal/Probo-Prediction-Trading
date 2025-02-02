@@ -8,7 +8,7 @@ const EventCard = ({event}:{event:eventType}) => {
     const router=useRouter();
     return (
       <div
-        className="w-2/5 shadow-sm shadow-slate-700 bg-[#121212] px-8 py-4 rounded-lg
+        className="w-4/5 md:w-5/12 shadow-sm shadow-slate-700 bg-[#121212] px-8 py-4 rounded-lg
      flex flex-col gap-3 cursor-pointer"
         onClick={() => router.push(`/${event.id}`)}
       >

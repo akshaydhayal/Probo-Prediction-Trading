@@ -20,11 +20,11 @@ export default async function EventPage({params}:{params:{eventId:string}}){
     const noOdds=roundOff((eventData.totalBetting==0?1:eventData.totalBetting)/(eventData.noBetting==0?1:eventData.noBetting),2)
 
     return(
-        <div className="w-full flex justify-end mt-8 px-4">
-            <div className="w-3/4">
+        <div className="w-full lg:flex  lg:justify-center lg:gap-2 mt-8 px-4 ">
+            <div className="lg:w-2/3 w-full ">
                 <EventDetails eventData={eventData}/>
             </div>
-            <div className="w-1/4">
+            <div className="mt-8 lg:max-w-80 w-full flex  justify-center">
                 <PlaceOrder eventId={eventData.id} yesOdds={yesOdds} noOdds={noOdds}/>
             </div>
         </div>

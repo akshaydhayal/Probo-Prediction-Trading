@@ -29,8 +29,8 @@ export default async function Home() {
   console.log("main page rendered");
   return (
     <div className="bg-[#201f1f] w-full min-h-screen ">
-      <NavList/>
-      <div className="flex flex-wrap gap-10 py-8 justify-center">
+      {/* <NavList/> */}
+      <div className="flex flex-wrap gap-6 py-8 justify-center">
         {eventsData.map((event:eventType)=>{
           return <EventCard key={event.id} event={event}/>
         })}

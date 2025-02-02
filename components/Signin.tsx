@@ -52,33 +52,37 @@ const Signin = () => {
   
   return (
     <div className="">
-      <div className="flex items-center gap-4 justify-center mt-12">
-        <PortfolioIcon />
-        <p className="text-3xl tracking-tight  font-semibold text-white font-sans">Welcome to SuperMemory</p>
+      <div className="flex items-center gap-4 justify-center">
+        <p className="text-2xl tracking-tight font-bold text-slate-200 font-sans">Welcome back to Probo</p>
       </div>
-      <div className="bg-[#272525] mx-24 p-12 mt-6 rounded-lg flex flex-col gap-3">
+      <div className="bg-[#272525] p-4 px-12  mt-2 rounded-lg flex flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <p className=" text-slate-200 font-semibold text-base">Email</p>
+          <p className=" text-slate-200 font-medium text-base">Email</p>
           <Input type="text" placeholder="Your Email address" inputChange={inputEmailChange} />
         </div>
         <div className="flex flex-col gap-1">
-          <p className=" text-slate-200 font-semibold text-base">Password</p>
+          <p className=" text-slate-200 font-medium text-base">Password</p>
           <Input type="text" placeholder="Enter Password" inputChange={inputPasswordChange} />
         </div>
         <div className="flex flex-col gap-3 mt-4">
-          <Button variant="dark" fullWidth={true} onClick={handleSignin}>
+          <Button variant="dark" fullWidth={true} onClick={handleSignin} defaultStyle="tracking-wider font-extrabold">
             Signin
           </Button>
-          <p className="text-slate-300 font-medium text-base text-center">OR</p>
-          <Button fullWidth={true} icon={<Google />} variant="light">
+          <p className="text-slate-300 font-medium text-sm text-center">OR</p>
+          <Button fullWidth={true} icon={<Google />} variant="light" defaultStyle="tracking-wider font-extrabold">
             Signin with Google
           </Button>
         </div>
         <div className="flex gap-2 justify-center">
-          <p className="text-slate-300">Don't have an account?</p>
-          <p className="text-blue-300 font-medium cursor-pointer hover:underline" onClick={()=>{
-            router.push("/signup");
-          }}>Sign up</p>
+          <p className="text-slate-300 text-sm">Don't have an account?</p>
+          <p
+            className="text-blue-400 text-sm font-medium cursor-pointer hover:underline"
+            onClick={() => {
+              router.push("/signup");
+            }}
+          >
+            Sign up
+          </p>
         </div>
       </div>
     </div>

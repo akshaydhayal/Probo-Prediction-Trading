@@ -33,7 +33,6 @@ const PortfolioTabs = () => {
           {tabClicked == "Closed Trades" && <div className="h-[.11rem]  bg-slate-400"></div>}
         </div>
       </div>
-      {/* <EventTabDetails tabClicked={tabClicked} eventData={eventData} /> */}
       <PortfolioTabDetails tabClicked={tabClicked} />
     </div>
   );

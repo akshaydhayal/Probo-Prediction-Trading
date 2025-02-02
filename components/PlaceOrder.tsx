@@ -50,7 +50,7 @@ const PlaceOrder = ({eventId,yesOdds,noOdds}:{eventId:number,yesOdds:number,noOd
   }
 
   return (
-    <div className="w-full flex flex-col gap-6 border border-slate-500 p-4 rounded-lg">
+    <div className="w-4/5 sm:w-3/5 md:max-w-[28rem] lg:w-full flex flex-col gap-6 border border-slate-500 p-4 rounded-lg">
       <div className="flex border border-slate-600 rounded-2xl">
         <div
           className={`${betOn == "YES" ? "bg-blue-700" : ""} cursor-pointer rounded-lg font-medium text-slate-100 flex-1 py-2 

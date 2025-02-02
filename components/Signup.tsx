@@ -31,37 +31,42 @@ const Signup = () => {
   }
   return (
     <div className="">
-      <div className="flex items-center gap-4 justify-center mt-12">
-        <PortfolioIcon />
-        <p className="text-3xl tracking-tight  font-semibold text-white font-sans">Welcome to SuperMemory</p>
+      <div className="flex items-center gap-4 justify-center">
+        {/* <PortfolioIcon /> */}
+        <p className="text-2xl tracking-tight font-bold text-white font-sans">Register Account</p>
       </div>
-      <div className="bg-[#272525] mx-24 p-12 mt-6 rounded-lg flex flex-col gap-3">
+      <div className="bg-[#272525] p-4 px-12 mt-2 rounded-lg flex flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <p className=" text-slate-200 font-semibold text-base">Name</p>
-          <Input type="text" placeholder="Your Name" inputChange={handleNameChange}/>
+          <p className=" text-slate-200 font-medium text-base">Name</p>
+          <Input type="text" placeholder="Your Name" inputChange={handleNameChange} />
         </div>
         <div className="flex flex-col gap-1">
-          <p className=" text-slate-200 font-semibold text-base">Email</p>
-          <Input type="text" placeholder="Your Email address" inputChange={handleEmailChange}/>
+          <p className=" text-slate-200 font-medium text-base">Email</p>
+          <Input type="text" placeholder="Your Email address" inputChange={handleEmailChange} />
         </div>
         <div className="flex flex-col gap-1">
-          <p className=" text-slate-200 font-semibold text-base">Password</p>
-          <Input type="text" placeholder="Enter Password" inputChange={handlePasswordChange}/>
+          <p className=" text-slate-200 font-medium text-base">Password</p>
+          <Input type="text" placeholder="Enter Password" inputChange={handlePasswordChange} />
         </div>
         <div className="flex flex-col gap-3 mt-4">
-          <Button variant="dark" fullWidth={true} onClick={handleSignup}>
+          <Button variant="dark" fullWidth={true} onClick={handleSignup} defaultStyle="tracking-wider font-extrabold">
             Register
           </Button>
-          <p className="text-slate-300 font-medium text-base text-center">OR</p>
-          <Button fullWidth={true} icon={<Google />} variant="light">
+          <p className="text-slate-300 font-medium text-sm text-center">OR</p>
+          <Button fullWidth={true} icon={<Google />} variant="light" defaultStyle="tracking-wide font-extrabold">
             Signin with Google
           </Button>
         </div>
         <div className="flex gap-2 justify-center">
-          <p className="text-slate-300">Already have an account?</p>
-          <p className="text-blue-300 font-medium cursor-pointer hover:underline" onClick={()=>{
-            router.push("/signin");
-          }}>Signin</p>
+          <p className="text-slate-300 text-sm">Already have an account?</p>
+          <p
+            className="text-blue-400 text-sm font-medium cursor-pointer hoverunderline"
+            onClick={() => {
+              router.push("/signin");
+            }}
+          >
+            Signin
+          </p>
         </div>
       </div>
     </div>
