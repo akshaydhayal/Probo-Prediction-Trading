@@ -12,7 +12,7 @@ export interface eventSchema extends eventType{
         userId:number
     }[]
 }
-export default async function EventPage({params}:{params:{eventId:string}}){
+export default async function EventPage({params}:{params:Promise<{eventId:string}>}){
     const {eventId}=await params;
     const event=await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event/${eventId}`);
     const eventData:eventSchema=(await event.json()).event;

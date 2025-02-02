@@ -73,7 +73,7 @@ const Signin = () => {
           </Button>
         </div>
         <div className="flex gap-2 justify-center">
-          <p className="text-slate-300 text-sm">Don't have an account?</p>
+          <p className="text-slate-300 text-sm">{`Don't have an account?`}</p>
           <p
             className="text-blue-400 text-sm font-medium cursor-pointer hover:underline"
             onClick={() => {

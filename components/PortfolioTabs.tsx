@@ -16,7 +16,7 @@ const PortfolioTabs = () => {
         <div
           className="flex flex-col gap-1"
           onClick={() => {
-            tabClicked == "Closed Trades" && setTabClicked("Active Trades");
+            if(tabClicked == "Closed Trades") setTabClicked("Active Trades");
           }}
         >
           <p className="text-gray-400 px-4 font-medium text-[17px] cursor-pointer hover:text-gray-300">Active Trades</p>
@@ -25,7 +25,7 @@ const PortfolioTabs = () => {
         <div
           className="flex flex-col gap-1"
           onClick={() => {
-            tabClicked == "Active Trades" && setTabClicked("Closed Trades");
+            if(tabClicked == "Active Trades") setTabClicked("Closed Trades");
           }}
         >
           <p className="text-gray-400 px-4 font-medium text-[17px] cursor-pointer hover:text-gray-300">Closed Trades</p>

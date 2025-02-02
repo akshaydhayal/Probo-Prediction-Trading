@@ -6,7 +6,8 @@ import { eventSchema } from "@/app/[eventId]/page";
 const EventTabs = ({eventData}:{eventData:eventSchema}) => {
   const [tabClicked, setTabClicked] = useState("overview");
   function toggleTab() {
-    tabClicked == "stats" ? setTabClicked("overview") : setTabClicked("stats");
+    setTabClicked(tabClicked=="stats"?'overview':'stats');
+    // tabClicked === "stats" ? setTabClicked("overview") : setTabClicked("stats");
   }
 
   return (

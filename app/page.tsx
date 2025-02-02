@@ -1,5 +1,5 @@
 import EventCard from "@/components/EventCard";
-import axios from "axios";
+// import axios from "axios";
 
 enum eventResult{
   YES='YES',
@@ -22,8 +22,13 @@ export type eventType={
 }
 
 export default async function Home() {
-  const events = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
-  const eventsData=events.data.events;
+  // const events = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
+  const events = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`,{
+    method:'GET',
+    cache:'no-store'
+  });
+  // const eventsData=events.data.events;
+  const eventsData=(await events.json()).data.events;
   console.log("main page rendered");
   return (
     <div className="bg-[#201f1f] w-full min-h-screen ">

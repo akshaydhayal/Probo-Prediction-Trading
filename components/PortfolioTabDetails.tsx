@@ -8,10 +8,10 @@ const PortfolioTabDetails = ({ tabClicked }: { tabClicked: string }) => {
   const userInfo = useSelector((state: RootState) => state.userSlice.user);
   const activeInvestments=userInfo?.bettings.filter(bet=>bet.event.result=='PENDING').reduce((acc,bet)=>acc+bet.amount,0);
   
-  const activeGains=userInfo?.bettings.filter(bet=>bet.event.result=='PENDING').reduce((acc,bet)=>{
-    const gain=bet.prediction=='YES'?((bet.event.totalBetting/bet.event.yesBetting)*bet.amount):((bet.event.totalBetting/bet.event.noBetting)*bet.amount);
-       return acc+gain;
-  },0);
+  // const activeGains=userInfo?.bettings.filter(bet=>bet.event.result=='PENDING').reduce((acc,bet)=>{
+  //   const gain=bet.prediction=='YES'?((bet.event.totalBetting/bet.event.yesBetting)*bet.amount):((bet.event.totalBetting/bet.event.noBetting)*bet.amount);
+  //      return acc+gain;
+  // },0);
   
   const closedGains=userInfo?.bettings.filter(bet=>bet.event.result!='PENDING').reduce((acc,bet)=>{
     const gain=bet.prediction==bet.event.result?(bet.prediction=='YES'?(bet.event.totalBetting/bet.event.yesBetting*bet.amount):(bet.event.totalBetting/bet.event.noBetting*bet.amount)):-1*bet.amount;
