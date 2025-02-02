@@ -1,7 +1,6 @@
 "use client";
 import { Input } from "./Input";
 import Button from "./Button";
-import PortfolioIcon from "./icons/PortfolioIcon";
 import Google from "./icons/Google";
 import { useState } from "react";
 import axios from "axios";
@@ -32,7 +31,6 @@ const Signup = () => {
   return (
     <div className="">
       <div className="flex items-center gap-4 justify-center">
-        {/* <PortfolioIcon /> */}
         <p className="text-2xl tracking-tight font-bold text-white font-sans">Register Account</p>
       </div>
       <div className="bg-[#272525] p-4 px-12 mt-2 rounded-lg flex flex-col gap-3">

@@ -1,12 +1,11 @@
 "use client";
 import { Input } from "./Input";
 import Button from "./Button";
-import PortfolioIcon from "./icons/PortfolioIcon";
 import Google from "./icons/Google";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { UseSelector,useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateUser } from "@/store/userSlice";
 
 const Signin = () => {

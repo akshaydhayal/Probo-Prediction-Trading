@@ -1,4 +1,4 @@
-export function Input({ type, placeholder,inputChange }) {
+export function Input({ type, placeholder,inputChange }:{type:string,placeholder:string,inputChange:(arg:string)=>{}}) {
   return (
     <input
       className="px-8 py-2 text-slate-300 rounded-md placeholder:text-slate-400

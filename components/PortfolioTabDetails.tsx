@@ -1,11 +1,9 @@
-// import { eventSchema } from '@/app/[eventId]/page';
 import React from "react";
 import TradesRow from "./TradeRow";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { roundOff } from "@/lib/lib";
 
-// const PortfolioTabDetails = ({tabClicked,eventData}:{tabClicked:string,eventData:eventSchema}) => {
 const PortfolioTabDetails = ({ tabClicked }: { tabClicked: string }) => {
   const userInfo = useSelector((state: RootState) => state.userSlice.user);
   const activeInvestments=userInfo?.bettings.filter(bet=>bet.event.result=='PENDING').reduce((acc,bet)=>acc+bet.amount,0);

@@ -1,5 +1,4 @@
 import EventCard from "@/components/EventCard";
-import NavList from "@/components/NavList";
 import axios from "axios";
 
 enum eventResult{
@@ -24,7 +23,6 @@ export type eventType={
 
 export default async function Home() {
   const events = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event`);
-  // console.log(events.data);
   const eventsData=events.data.events;
   console.log("main page rendered");
   return (

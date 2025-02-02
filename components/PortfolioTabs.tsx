@@ -1,15 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import EventTabDetails from "./EventTabDetails";
 import PortfolioTabDetails from "./PortfolioTabDetails";
 import { useRouter } from "next/navigation";
 
 const PortfolioTabs = () => {
   const [tabClicked, setTabClicked] = useState("Active Trades");
   const router=useRouter();
-  function toggleTab() {
-    tabClicked == "Active Trades" ? setTabClicked("Closed Trades") : setTabClicked("Active Trades");
-  }
 
   if(!localStorage.getItem('token')){
     router.push("/");

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import HomeIcon from "./icons/HomeIcon";
 import PortfolioIcon from "./icons/PortfolioIcon";
 import RupeeIcon from "./icons/RupeeIcon";
@@ -7,10 +7,9 @@ import Usericon from "./icons/Usericon";
 import ChartIcon from "./icons/ChartIcon";
 import EventModal from "./EventModal";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector, UseSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser, updateUserBalance } from "@/store/userSlice";
 import { RootState } from "@/store/store";
-import Logout from "./icons/Logout";
 import LogoutIcon from "./icons/LogoutIcon";
 
 const Navbar = () => {

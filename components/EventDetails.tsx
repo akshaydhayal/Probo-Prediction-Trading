@@ -1,5 +1,4 @@
 import { eventSchema } from "@/app/[eventId]/page";
-import EventTabDetails from "./EventTabDetails";
 import EventTabs from "./EventTabs"
 
 const EventDetails = ({eventData}:{eventData:eventSchema}) => {
@@ -12,7 +11,6 @@ const EventDetails = ({eventData}:{eventData:eventSchema}) => {
       </div>
 
       <EventTabs eventData={eventData}/>
-      {/* <EventTabDetails/> */}
     </div>
   );
 }
