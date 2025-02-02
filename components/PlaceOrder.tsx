@@ -27,6 +27,12 @@ const PlaceOrder = ({eventId,yesOdds,noOdds}:{eventId:number,yesOdds:number,noOd
   }
 
   async function placeBetting(){
+    if(!localStorage.getItem('token')){
+      toast.error("Signin first to place a bet!!",{
+        duration:1500
+      });
+      return;
+    }
     try{
       const response=await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/event/${eventId}`,{
         amount:price * quantity,

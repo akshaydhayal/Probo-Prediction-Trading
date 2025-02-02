@@ -2,15 +2,18 @@
 import React, { useState } from "react";
 import EventTabDetails from "./EventTabDetails";
 import PortfolioTabDetails from "./PortfolioTabDetails";
-// import { eventSchema } from "@/app/[eventId]/page";
+import { useRouter } from "next/navigation";
 
-// const UserTabs = ({ eventData }: { eventData: eventSchema }) => {
 const PortfolioTabs = () => {
   const [tabClicked, setTabClicked] = useState("Active Trades");
+  const router=useRouter();
   function toggleTab() {
     tabClicked == "Active Trades" ? setTabClicked("Closed Trades") : setTabClicked("Active Trades");
   }
 
+  if(!localStorage.getItem('token')){
+    router.push("/");
+  }
   return (
     <div className="w-full">
       <div className="flex justify-center gap-10 ">
