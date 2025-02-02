@@ -36,7 +36,7 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
     
     return (
     <div className="w-screen h-screen backdrop-blur-[3px] fixed top-0 left-0 flex justify-center items-center">
-      <div className="bg-[#1a1919] w-1/2 py-6 px-8 flex flex-col gap-4 shadow-sm shadow-slate-700 rounded-xl">
+      <div className="bg-[#1a1919] border w-10/12 sm:4/5 md:w-2/3 lg:w-1/2 py-6 px-8 flex flex-col gap-4 shadow-sm shadow-slate-700 rounded-xl">
         <p className="font-semibold text-2xl text-slate-300 text-center">Create a Probo Opinion Event</p>
         <div className="flex flex-col gap-1">
           <p className="text-gray-300 font-medium">Event Title</p>
@@ -85,11 +85,11 @@ const EventModal = ({setModalOpen}:{setModalOpen:React.Dispatch<React.SetStateAc
             />
           </div>
           
-        <div className="flex flex-col gap-1 flex-1">
+        {/* <div className="flex flex-col gap-1 flex-1">
           <p className="text-gray-300 font-medium">Event Tag</p>
           <input className="py-2 w-full bg-black placeholder:text-slate-400 px-4 text-sm text-slate-200"
           placeholder="Event Tag" onChange={(e)=>setDescription(e.target.value)}/>
-        </div>
+        </div> */}
 
         </div>
 
