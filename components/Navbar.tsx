@@ -1,36 +1,36 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import HomeIcon from "./icons/HomeIcon";
 import PortfolioIcon from "./icons/PortfolioIcon";
 import RupeeIcon from "./icons/RupeeIcon";
 import Usericon from "./icons/Usericon";
-import ChartIcon from "./icons/ChartIcon";
 import EventModal from "./EventModal";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser, updateUserBalance } from "@/store/userSlice";
 import { RootState } from "@/store/store";
 import LogoutIcon from "./icons/LogoutIcon";
+import ChartBigIcon from "./icons/ChartBigIcon";
 
 const Navbar = () => {
-    const router = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [openModal, setModalOpen] = useState(false);
-  const userInfo = useSelector((state:RootState) => state.userSlice.user);
+  const userInfo = useSelector((state: RootState) => state.userSlice.user);
   console.log(userInfo);
 
-  async function getMoney(){
-    try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`,{
-        method:'PUT',
-        headers:{token:localStorage.getItem('token')??''}
+  async function getMoney() {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`, {
+        method: "PUT",
+        headers: { token: localStorage.getItem("token") ?? "" },
       });
-      const data=await response.json();
-      if(data){
+      const data = await response.json();
+      if (data) {
         dispatch(updateUserBalance(50));
       }
       console.log(data);
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
   }
@@ -40,7 +40,7 @@ const Navbar = () => {
       <div className="bg-[#121212]  flex items-center justify-between">
         <p
           onClick={() => router.push("/")}
-          className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-2xl font-semibold cursor-pointer"
+          className="bg-gradient-to-r from-blue-500 to-purple-400 bg-clip-text text-transparent text-2xl md:text-3xl font-bold cursor-pointer"
         >
           probo
         </p>
@@ -57,7 +57,7 @@ const Navbar = () => {
                   <p className="hidden md:block text-gray-200 hover:text-gray-50 font-medium md:text-sm lg:text-base">Portfolio</p>
                 </div>
                 <div className="flex gap-1 items-center cursor-pointer" onClick={() => setModalOpen(true)}>
-                  <ChartIcon />
+                  <ChartBigIcon/>
                   <p className="hidden md:block text-gray-200 hover:text-gray-50 md:text-sm font-medium lg:text-base">Create Opinion</p>
                 </div>
               </>
@@ -65,9 +65,9 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-4 sm:gap-8 md:gap-2 lg:gap-6">
             <div className="flex items-center gap-1 ">
-              <div className="flex gap-0 items-center  cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full px-[6px] py-[1px] sm:px-2 lg:px-3 sm:py-[2px] lg:py-[3px]">
+              <div className="flex gap-1 items-center text-red-500  cursor-pointer bg-gradient-to-r from-blue-500 to-purple-500 rounded-full px-[6px] py-[1px] sm:px-2 lg:px-3 sm:py-[2px] lg:py-[3px]">
                 <RupeeIcon />
-                <p className="text-white font-medium text-sm lg:text-base ">{userInfo ? userInfo.balance : 0}</p>
+                <p className="text-white font-medium text-sm ">{userInfo ? userInfo.balance : 0}</p>
               </div>
 
               {userInfo && (
@@ -130,8 +130,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
 
 // "use client";
 // import { useState } from "react";
