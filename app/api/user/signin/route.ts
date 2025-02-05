@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import {z} from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+
 
 const prismaClient=new PrismaClient();
 
@@ -31,6 +33,11 @@ export async function POST(req:NextRequest){
             return NextResponse.json({msg:"JWT secret is not defined"},{status:401});
         }
         const jwtToken=jwt.sign({userId:user.id},process.env.JWT_SECRET);
+        const cookieStore=await cookies();
+        cookieStore.set('auth-cookie',jwtToken,{
+            httpOnly:true,
+            sameSite:"lax"
+        });
         return NextResponse.json({msg:"User signed in!!",jwtToken},{status:200});
     }catch(e){
         console.log(e);

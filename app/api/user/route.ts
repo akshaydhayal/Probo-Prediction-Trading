@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import {cookies} from "next/headers";
 
 const prismaClient = new PrismaClient();
 export async function GET(req: NextRequest) {
   try {
-    const token = req.headers.get("token");
+    const cookieStore=await cookies();
+    const token=cookieStore.get("auth-cookie")?.value;
+    console.log('token : ',token);
+    // const token = req.headers.get("token");
     if (!token) {
       return NextResponse.json({ error: "Token is required" }, { status: 401 });
     }
@@ -47,7 +51,9 @@ export async function PUT(req: NextRequest) {
     const url = new URL(req.url);
     const amount = Number(url.searchParams.get("deposit"));
 
-    const token = req.headers.get("token");
+    const cookieStore=await cookies();
+    const token=cookieStore.get("auth-cookie")?.value;
+    // const token = req.headers.get("token");
     if (!token) {
       return NextResponse.json({ error: "Token is required" }, { status: 401 });
     }

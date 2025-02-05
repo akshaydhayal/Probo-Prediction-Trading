@@ -20,11 +20,9 @@ const Signin = () => {
   function inputPasswordChange(ip: string) {
     setPassword(ip);
   }
-  async function getUserData(token:string){
+  async function getUserData(){
     try{
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`,{
-        headers:{token}
-      });
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`);
       if(response.status==200){
         dispatch(updateUser(response.data.user));
         console.log("user state in redux updated");
@@ -40,8 +38,8 @@ const Signin = () => {
         password,
       });
       if (response.status == 200) {
-        localStorage.setItem("token", response.data.jwtToken);
-        getUserData(response.data.jwtToken);
+        // localStorage.setItem("token", response.data.jwtToken);
+        getUserData();
         router.push("/");
       }
     } catch (e) {

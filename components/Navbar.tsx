@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeIcon from "./icons/HomeIcon";
 import PortfolioIcon from "./icons/PortfolioIcon";
 import RupeeIcon from "./icons/RupeeIcon";
@@ -11,6 +11,8 @@ import { updateUser, updateUserBalance } from "@/store/userSlice";
 import { RootState } from "@/store/store";
 import LogoutIcon from "./icons/LogoutIcon";
 import ChartBigIcon from "./icons/ChartBigIcon";
+import axios from "axios";
+import { deleteCookie } from "@/app/action";
 
 const Navbar = () => {
   const router = useRouter();
@@ -18,23 +20,46 @@ const Navbar = () => {
   const [openModal, setModalOpen] = useState(false);
   const userInfo = useSelector((state: RootState) => state.userSlice.user);
   console.log(userInfo);
+  console.log('a');
 
-  async function getMoney() {
+  async function getUserData() {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`, {
-        method: "PUT",
-        headers: { token: localStorage.getItem("token") ?? "" },
-      });
-      const data = await response.json();
-      if (data) {
-        dispatch(updateUserBalance(50));
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`);
+      if (response.status == 200) {
+        dispatch(updateUser(response.data.user));
+        console.log("user state in redux updated");
       }
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
   }
+  useEffect(()=>{
+    getUserData();
+  },[]);
 
+  async function getMoney() {
+    console.log("get money starttt");
+    try {
+      console.log("get money start");
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`, {
+        //   method: "PUT",
+        //   headers: { token: localStorage.getItem("token") ?? "" },
+        // });
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`, {
+            method: "PUT",
+          });
+          // const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user?deposit=50`);
+          // console.log("response :", response);
+      const data = await response.json();
+      if (data) {
+      // if (response.status==200) {
+        dispatch(updateUserBalance(50));
+      }
+      // console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <div className="w-full bg-[#121212] py-3 sticky top-0 left-0 px-4">
       <div className="bg-[#121212]  flex items-center justify-between">
@@ -103,7 +128,8 @@ const Navbar = () => {
                     className="bg-blue-700 hidden md:block hover:bg-blue-600  text-white md:py-[2px] lg:py-1 md:px-2 lg:px-4
                 lg:text-base text-sm font-[530] rounded-md"
                     onClick={() => {
-                      localStorage.removeItem("token");
+                      deleteCookie();
+                      // localStorage.removeItem("token");
                       dispatch(updateUser(null));
                     }}
                   >

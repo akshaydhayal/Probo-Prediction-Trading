@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { z } from "zod";
+import { cookies } from "next/headers";
 
 const prismaClient = new PrismaClient();
 
@@ -22,7 +23,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ eventId
     const { amount, prediction } = parsedResponse.data;
     console.log(body);
     const { eventId } = await params;
-    const token = req.headers.get("token");
+
+    const cookieStore=await cookies();
+    const token=cookieStore.get("auth-cookie")?.value;
+    // const token = req.headers.get("token");
     if (!token) {
       return NextResponse.json({ msg: "Provide a JWT Token" }, { status: 401 });
     }
@@ -112,7 +116,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ even
     if (result == "PENDING")  return NextResponse.json({ msg: "Result cannot be PENDING" }, { status: 400 });
 
     //to check if user has adminrole to decalre result
-    const token=req.headers.get("token");
+    // const token=req.headers.get("token");
+    const cookieStore=await cookies();
+    const token=cookieStore.get("auth-cookie")?.value;
     if(!token) return NextResponse.json({msg:"JWT not provided!!"},{status:401});
     if(!process.env.JWT_SECRET) return NextResponse.json({msg:"JWT SECRET not provided!!"},{status:401});
     const decodedToken=jwt.verify(token,process.env.JWT_SECRET);
